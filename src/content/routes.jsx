@@ -10,12 +10,14 @@ import Login from './auth/login';
 
 const Routes = props => {
 	return (
-		<div className="container">
-			<Route exact path="/" component={Home} />
-			<Route path="/profile"  render={
+		<div className="content-container">
+			<Route exact path="/" render={
+				() => <Home user={props.user} updateUser={props.updateUser} />
+			} />
+			<Route path="/profile" render={
 				() => <Profile user={props.user} updateUser={props.updateUser} />
 			} />
-			<Route path="/login"  render={
+			<Route path="/login" render={
 				() => <Login user={props.user} updateUser={props.updateUser} />
 			} />
 			<Route path="/signup" render={
