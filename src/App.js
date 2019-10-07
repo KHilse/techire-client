@@ -35,6 +35,7 @@ class App extends React.Component {
         console.log("ERROR getting token", err);
       })
     } else {
+      console.log("NO TOKEN, NO USER");
       this.setState({ user: null });
     }
   }
