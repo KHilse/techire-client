@@ -51,8 +51,12 @@ const Nav = props => {
 		localStorage.setItem('googleToken', response.accessToken);
 		axios.post(`${SERVER_URL}/auth/login`, response)
 		.then(res => {
+			console.log('SERVER TOKEN:', res.data);
 			localStorage.setItem('serverToken', res.data.token);
 			props.updateUser();
+		})
+		.catch(err => {
+			console.log('SERVER failed to login user');
 		})
 		console.log(response);
 	}
@@ -60,6 +64,7 @@ const Nav = props => {
 	function handleGoogleLogout() {
 		localStorage.setItem('googleToken', null);
 		localStorage.setItem('serverToken', null);
+		props.updateUser();
 	}
 
 	function handleLogout(e) {
