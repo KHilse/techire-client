@@ -10,8 +10,8 @@ const Home = props => {
 	if (props.user) { // User logged in
 		content = (
 			<>
-			<Tasks />
-			<Applications />
+			<Tasks user={props.user} />
+			<Applications user={props.user} />
 			<Documents user={props.user} />
 			</>
 		)
