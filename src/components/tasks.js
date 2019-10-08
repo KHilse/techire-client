@@ -10,9 +10,9 @@ const Tasks = props => {
         Axios.get(SERVER_URL + '/tasks/' + props.user._id)
         .then(tasks => {
             console.log('TASKS', tasks);
-            setTaskList(tasks.data.map(task => {
+            setTaskList(tasks.data.map((task, i) => {
                 return (
-                    <div>
+                    <div id={i}>
                         <p>{task.name}</p>
                         <p>{task.action}</p>
                         <p>{task.completed}</p>
@@ -26,7 +26,7 @@ const Tasks = props => {
         })
 
 
-    })
+    },[props.user])
 
     return (
         <div className="tasks-container">
