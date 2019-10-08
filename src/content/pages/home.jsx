@@ -12,7 +12,7 @@ const Home = props => {
 			<>
 			<Tasks />
 			<Applications />
-			<Documents />
+			<Documents user={props.user} />
 			</>
 		)
 	} else { // User not logged in

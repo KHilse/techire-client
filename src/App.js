@@ -17,6 +17,7 @@ class App extends React.Component {
   }
 
   getUser = () => {
+    console.log(this);
     // See if a token exists
     let token = localStorage.getItem('serverToken');
 
@@ -28,7 +29,7 @@ class App extends React.Component {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       .then(response => {
-        console.log('Success:', response);
+        console.log('USER Success:', response);
         this.setState({ user: response.data.user });
       })
       .catch(err => {
