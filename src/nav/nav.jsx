@@ -48,7 +48,11 @@ const Nav = props => {
 	}
 
 	function responseGoogle(response) {
-		localStorage.setItem('googleToken', response.accessToken);
+		if (response.AccessToken) {
+			localStorage.setItem('googleToken', response.accessToken);
+		} else {
+			localStorage.setItem('googleToken', response.Zi.access_token)
+		}
 		axios.post(`${SERVER_URL}/auth/login`, response)
 		.then(res => {
 			console.log('SERVER TOKEN:', res.data);
