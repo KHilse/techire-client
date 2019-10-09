@@ -83,6 +83,40 @@ nav a:hover {
   border: 3px solid black;
 }
 
+.prep-container {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.prep-category {
+  border: 1px solid black;
+  background-color: lightgray;
+  padding: 10px;
+}
+
+.prep-item {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.status-not-started {
+  background-color: orange;
+}
+
+.status-in-progress {
+  background-color: yellow;
+}
+
+.status-completed {
+  background-color: green;
+}
+
+
 .tasks-container {
   position: relative;
   left: 0;
