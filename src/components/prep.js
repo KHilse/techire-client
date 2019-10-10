@@ -24,7 +24,7 @@ const Prep = props => {
 
     function handleCategoryClick(e) {
         let t = e.currentTarget.getAttribute('name');
-        if (t == currentCategory) {
+        if (t === currentCategory) {
             setCurrentCategory(-1);
         } else {
             setCurrentCategory(t);
@@ -47,13 +47,15 @@ const Prep = props => {
                 case 'Completed':
                     newStatus = 'Not Started';
                     break;
+                default:
+                    break;
             }
             let updateString = SERVER_URL + '/preps/' + props.user._id + '/' + itemId;
             Axios.put(updateString, { status: newStatus })
             .then(result => {
                 // Update prepsList with new status
                 let index = prepsList.findIndex(prep => {
-                    return prep._id == itemId;
+                    return prep._id === itemId;
                 })
 
                 if (index >=0) {
@@ -75,14 +77,14 @@ const Prep = props => {
         <div className="prep-container">
             {prepsList.map((prep, i) => {
                 let cat = <></>;
-                if (prep.category != catIndex) { // New category
+                if (prep.category !== catIndex) { // New category
                     catIndex = prep.category;
                     cat = (
                         <PrepCategory key={1000+i} id={prep._id} name={prep.category} currentCategory={currentCategory} prep={prep} handleCategoryClick={handleCategoryClick} />
                     )
                 }
                 let item = <></>;
-                if (catIndex == currentCategory) {
+                if (catIndex === currentCategory) {
                     item = (
                         <PrepItem key={i} name={prep._id} prep={prep} currentCategory={currentCategory} status={prep.status} handleStatusChange={handleItemStatusChange} />
                     )

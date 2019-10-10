@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import SERVER_URL from '../constants';
 
 const Documents = props => {
 
@@ -59,7 +58,7 @@ const Documents = props => {
         .catch(err => {
             console.log(err);
         })    
-    }, [props.user])
+    }, [props.user, googleToken])
 
     return (
         <div className="documents-container">

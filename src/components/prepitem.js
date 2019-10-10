@@ -9,13 +9,13 @@ const PrepItem = props => {
 
     function handleExpanded(e) {
         console.log(`e.target.type=${e.target.type}`)
-        if (e.target.type != 'button') {
+        if (e.target.type !== 'button') {
             setExpanded(!expanded);
         }
     }
 
     // console.log(`prep.category=${prep.category}, currentCategory=${currentCategory}`)
-    if (currentCategory != -1 && prep.category != currentCategory) {
+    if (currentCategory !== -1 && prep.category !== currentCategory) {
         return (<></>)
     } 
 
@@ -31,6 +31,8 @@ const PrepItem = props => {
         case 'Completed':
             statusClass='status-completed';
                 break;
+        default:
+            break;
     }
 
     let content = <></>;

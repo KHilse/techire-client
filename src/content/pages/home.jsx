@@ -1,6 +1,6 @@
 import React from 'react';
 import Tasks from '../../components/tasks';
-import Applications from '../../components/applications';
+import Contacts from '../../components/contacts';
 import Documents from '../../components/documents';
 
 const Home = props => {
@@ -11,7 +11,7 @@ const Home = props => {
 		content = (
 			<>
 			<Tasks user={props.user} />
-			<Applications user={props.user} />
+			<Contacts user={props.user} />
 			<Documents user={props.user} />
 			</>
 		)
