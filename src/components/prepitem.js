@@ -29,7 +29,8 @@ const PrepItem = props => {
     }
 
     let statusClass = '';
-    switch (prep.status) {
+    console.log(`props.status=${props.status}`);
+    switch (props.status) {
         case 'Not Started':
             statusClass='status-not-started';
             break;
@@ -44,7 +45,7 @@ const PrepItem = props => {
         <div className="prep-item" onClick={handleExpanded}>
             <p>{prep.caption}</p>
             {content}
-            <input className={statusClass} type="button" onClick={props.handleStatusChange} value={prep.status} />
+            <input id={props.id} name={props.name} className={statusClass} type="button" onClick={props.handleStatusChange} value={props.status} />
        </div>
     )
 }

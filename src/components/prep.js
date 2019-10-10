@@ -13,23 +13,8 @@ const Prep = props => {
         // console.log('useEffect called');
         Axios.get(SERVER_URL + '/preps/' + props.user._id)
         .then(preps => {
-            // console.log('PREPS', preps);
-            let catIndex = '';
-            let prepsData = [];
-            setCurrentCategory(preps.data[0].category);
-            preps.data.forEach((prep, i) => {
-                // console.log(prep.category, catIndex, currentCategory);
-                if (prep.category != catIndex) { // Starting new category, add category header
-                    catIndex = prep.category;
-                    prepsData.push(<PrepCategory id={i} name={prep.category} currentCategory={currentCategory} prep={prep} handleCategoryClick={handleCategoryClick} />);
-                }
-                if (prep.category == catIndex) { // Display items for current category only
-                    prepsData.push(<PrepItem id={i} name={prep._id} prep={prep} currentCategory={currentCategory} handleStatusChange={handleItemStatusChange} />)
-                }
-            })
-            // console.log('*** PREPS DATA ***');
-            // console.log(prepsData);
-            setPrepsList(prepsData);
+            console.log('PREPS FROM DB', preps.data);
+            setPrepsList(preps.data);
         })
         .catch(err => {
             console.log('ERROR getting preps from API', err);
@@ -42,13 +27,61 @@ const Prep = props => {
 
     function handleItemStatusChange(e) {
         e.preventDefault();
-        let itemId = e.target.id;
-        console.log('STUB - Handle Prep Item Status Change');
+            console.dir(`e.target.value=${e.target.value}`);
+            let itemId = e.target.name;
+            let currentStatus = e.target.value;
+            let newStatus = '';
+            switch(currentStatus) {
+                case 'Not Started':
+                    newStatus = 'In Progress';
+                    break;
+                case 'In Progress':
+                    newStatus = 'Completed';
+                    break;
+                case 'Completed':
+                    newStatus = 'Not Started';
+                    break;
+            }
+            let updateString = SERVER_URL + '/preps/' + props.user._id + '/' + itemId;
+            Axios.put(updateString, { status: newStatus })
+            .then(result => {
+                // Update prepsList with new status
+                let index = prepsList.findIndex(prep => {
+                    return prep._id == itemId;
+                })
+
+                if (index >=0) {
+                    let nl = JSON.parse(JSON.stringify(prepsList));
+                    nl[index].status = newStatus;
+                    setPrepsList(nl);
+                    console.log('NEW PREPS:');
+                    console.log(prepsList);
+                }
+            })
+            .catch(err => {
+                console.log('ERROR updating prep item status', err);
+            })
     }
 
+    let catIndex = '';
+    // setCurrentCategory(prepsList[0].category);
     return (
         <div className="prep-container">
-            {prepsList}
+            {prepsList.map((prep, i) => {
+                if (prep.category != catIndex) { // New category
+                    catIndex = prep.category;
+                    return (
+                        <>
+                        <PrepCategory key={1000+i} name={prep._id} currentCategory={currentCategory} prep={prep} handleCategoryClick={handleCategoryClick} />
+                        <PrepItem key={i} name={prep._id} prep={prep} currentCategory={currentCategory} status={prep.status} handleStatusChange={handleItemStatusChange} />
+                        </>
+                    )
+                } else {
+                    return (
+                        <PrepItem key={i} name={prep._id} prep={prep} currentCategory={currentCategory} status={prep.status} handleStatusChange={handleItemStatusChange} />
+                    )                    
+                }
+            })}
         </div>
     )
 }
