@@ -99,21 +99,27 @@ nav a:hover {
   padding: 10px;
 }
 
-.prep-item {
+/* .prep-item {
   border: 1px solid black;
   padding: 10px;
-}
+  height: auto;
+  max-height: auto;
+  transition: max-height 1s;
+} */
 
 .status-not-started {
-  background-color: orange;
+  border: 1px solid black;
+  padding: 10px;  background-color: rgb(255, 218, 151);
 }
 
 .status-in-progress {
-  background-color: yellow;
+  border: 1px solid black;
+  padding: 10px;  background-color: rgb(253, 253, 158);
 }
 
 .status-completed {
-  background-color: green;
+  border: 1px solid black;
+  padding: 10px;  background-color: rgb(197, 255, 197);
 }
 
 

@@ -8,7 +8,7 @@ const PrepCategory = props => {
 
 
     return (
-        <div className="prep-category" onClick={props.handleCategoryClick}>
+        <div id={props.id} name={props.name} className="prep-category" onClick={props.handleCategoryClick}>
             <h2>{prep.category}</h2>
         </div>
     )

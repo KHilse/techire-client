@@ -19,15 +19,6 @@ const PrepItem = props => {
         return (<></>)
     } 
 
-    let content = <></>;
-    if (expanded) {
-        content = (
-            <>
-                <p dangerouslySetInnerHTML={{ __html: prep.description }}></p>
-            </>
-        )
-    }
-
     let statusClass = '';
     console.log(`props.status=${props.status}`);
     switch (props.status) {
@@ -41,11 +32,21 @@ const PrepItem = props => {
             statusClass='status-completed';
                 break;
     }
+
+    let content = <></>;
+    if (expanded) {
+        content = (
+            <>
+                <p dangerouslySetInnerHTML={{ __html: prep.description }}></p>
+                <input id={props.id} name={props.name} type="button" onClick={props.handleStatusChange} value={props.status} />
+            </>
+        )
+    }
+
     return (
-        <div className="prep-item" onClick={handleExpanded}>
+        <div className={statusClass} onClick={handleExpanded}>
             <p>{prep.caption}</p>
             {content}
-            <input id={props.id} name={props.name} className={statusClass} type="button" onClick={props.handleStatusChange} value={props.status} />
        </div>
     )
 }

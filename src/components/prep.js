@@ -15,6 +15,7 @@ const Prep = props => {
         .then(preps => {
             console.log('PREPS FROM DB', preps.data);
             setPrepsList(preps.data);
+            setCurrentCategory(preps.data[0].category);
         })
         .catch(err => {
             console.log('ERROR getting preps from API', err);
@@ -22,7 +23,12 @@ const Prep = props => {
     }, [props.user])
 
     function handleCategoryClick(e) {
-        setCurrentCategory(e.target.id);
+        let t = e.currentTarget.getAttribute('name');
+        if (t == currentCategory) {
+            setCurrentCategory(-1);
+        } else {
+            setCurrentCategory(t);
+        }
     }
 
     function handleItemStatusChange(e) {
@@ -64,23 +70,29 @@ const Prep = props => {
     }
 
     let catIndex = '';
-    // setCurrentCategory(prepsList[0].category);
+    console.log(`currentCategory=${currentCategory}`);
     return (
         <div className="prep-container">
             {prepsList.map((prep, i) => {
+                let cat = <></>;
                 if (prep.category != catIndex) { // New category
                     catIndex = prep.category;
-                    return (
-                        <>
-                        <PrepCategory key={1000+i} name={prep._id} currentCategory={currentCategory} prep={prep} handleCategoryClick={handleCategoryClick} />
-                        <PrepItem key={i} name={prep._id} prep={prep} currentCategory={currentCategory} status={prep.status} handleStatusChange={handleItemStatusChange} />
-                        </>
+                    cat = (
+                        <PrepCategory key={1000+i} id={prep._id} name={prep.category} currentCategory={currentCategory} prep={prep} handleCategoryClick={handleCategoryClick} />
                     )
-                } else {
-                    return (
-                        <PrepItem key={i} name={prep._id} prep={prep} currentCategory={currentCategory} status={prep.status} handleStatusChange={handleItemStatusChange} />
-                    )                    
                 }
+                let item = <></>;
+                if (catIndex == currentCategory) {
+                    item = (
+                        <PrepItem key={i} name={prep._id} prep={prep} currentCategory={currentCategory} status={prep.status} handleStatusChange={handleItemStatusChange} />
+                    )
+                }
+            return (
+                    <>
+                    {cat}
+                    {item}
+                    </>
+                )    
             })}
         </div>
     )
