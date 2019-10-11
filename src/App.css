@@ -203,6 +203,18 @@ nav a:hover {
   border: 3px solid black;
 }
 
+.task-due-today {
+  background-color: rgb(255.218,151);
+}
+
+.task-due-soon {
+  background-color: rgb(253,253,158);
+}
+
+.task-due-eventually {
+  background-color: rgb(197,255,197);
+}
+
 .pointer:hover {
   cursor: pointer;
 }
