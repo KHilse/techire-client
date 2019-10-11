@@ -4,15 +4,16 @@ import SERVER_URL from '../constants';
 
 const Tasks = props => {
 
-    const [taskList, setTaskList] = useState(null);
+    const [taskList, setTaskList] = useState([]);
 
     useEffect(() => {
+        console.log(`Building tasks list for user ${props.user._id}`);
         Axios.get(SERVER_URL + '/tasks/' + props.user._id)
         .then(tasks => {
             console.log('TASKS', tasks);
             setTaskList(tasks.data.map((task, i) => {
                 return (
-                    <div id={i}>
+                    <div key={i} id={i}>
                         <p>{task.name}</p>
                         <p>{task.action}</p>
                         <p>{task.completed}</p>

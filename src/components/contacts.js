@@ -16,7 +16,6 @@ const Contacts = props => {
     const [linkedInUrl, setLinkedInUrl] = useState('');
     const [howHelpful, setHowHelpful] = useState('');   
     const [contacts, setContacts] = useState([]);
-    const [validate, setValidate] = useState(true);
 
     function handleContactFormDisplay() {
         let isVisible = addFormVisible;
@@ -54,8 +53,9 @@ const Contacts = props => {
             setHowHelpful('');
             setContacts('');
 
-            setValidate(true);
-            // updateComponent();
+            let c = [...contacts];
+            c.push(result.data);
+            setContacts(c);
         })
         .catch(err => {
             console.log('ERROR adding new contact', err);
@@ -65,8 +65,12 @@ const Contacts = props => {
     function handleDelete(userId, contactId) {
         axios.delete(`${SERVER_URL}/contacts/${userId}/delete/${contactId}`)
         .then(result => {
-            setValidate(true);
-            // updateComponent();
+            let c = [...contacts];
+            let cIndex = c.findIndex((c) => {
+                return c._id === result._id;
+            })
+            c.splice(cIndex, 1);
+            setContacts(c);
         })
         .catch(err => {
             console.log('ERROR deleting contact', err);
@@ -78,41 +82,23 @@ const Contacts = props => {
         axios.put(`${SERVER_URL}/contacts/${userId}/update/${contactId}`, formData)
         .then(result => {
             console.log('Updated contact', result);
-            setValidate(true);
         })
         .catch(err => {
             console.log('ERROR adding new contact', err);
         })
     }
 
-    function handleAddContact(userId, contactId, requestType) {
-        // Adds a new outstanding request to the contact
-        axios.post(`${SERVER_URL}/contacts/${userId}/contact/${contactId}/newrequest`, requestType)
-        .then(result => {
-            console.log('Added new outstanding request');
-            setValidate(true);
-        })
-        .catch(err => {
-            console.log('ERROR while adding new outstanding request to contact');
-        })
-    }
-
-    function updateComponent(cList) {
+    useEffect(() => {
         axios.get(`${SERVER_URL}/contacts/${props.user._id}`)
         .then(contactList => {
             setContacts(contactList.data);
-            setValidate(false);
         })
         .catch(err => {
             console.log('ERROR getting contacts list from API');
-        })       
-    }
-    useEffect(() => {
-        // Get contacts from db through API
-        if (validate) {
-            updateComponent();
-        }
-    },[props.user, validate]);
+        })     
+    },[props.user]);
+
+
 
     return (
         <div className="contacts-container">
@@ -133,7 +119,7 @@ const Contacts = props => {
             <input id="contact-button-add" type="button" value={addFormButtonText} onClick={handleContactFormDisplay} />
             {contacts.map((c, i) => {
                 return (
-                    <Contact key={i} data={c} handleDelete={handleDelete} handleUpdate={handleUpdate} handleAddContact={handleAddContact} />
+                    <Contact key={i} data={c} handleDelete={handleDelete} handleUpdate={handleUpdate} />
                 )
             })}
         </div>

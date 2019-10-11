@@ -74,7 +74,9 @@ nav a:hover {
 
 .contact {
   position: relative;
-  height: 7em;
+  min-height: 7em;
+  height: auto;
+  overflow: auto;
   border: 1px solid black;
   background-image: linear-gradient(to bottom, lightgray, gray);
 }

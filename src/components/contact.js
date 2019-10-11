@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, useReducer } from 'react';
 import ContactRequest from './contactrequest';
+import axios from 'axios';
+import SERVER_URL from '../constants';
 
 const Contact = props => {
 
@@ -12,7 +14,8 @@ const Contact = props => {
     const [howHelpful, setHowHelpful] = useState(props.data.howHelpful);
     const [contactRequests, setContactRequests] = useState(props.data.outstandingRequests);   
     const [requestType, setRequestType] = useState('');
-
+ 
+ 
     function handleDel() {
         props.handleDelete(props.data.userId,props.data._id);
     }
@@ -30,15 +33,34 @@ const Contact = props => {
             linkedInUrl: linkedInUrl,
             howHelpful: howHelpful            
         };
-
         props.handleUpdate(props.data.userId, props.data._id, formData);
     }
 
     function handleAddContactRequest(e) {
         e.preventDefault();
-        props.handleAddContact(props.data.userId, props.data._id, { type: requestType });
+        axios.post(`${SERVER_URL}/contacts/${props.data.userId}/contact/${props.data._id}/newrequest`,  { type: requestType })
+        .then(result => {
+            console.log('Added new outstanding request', result);
+            let newRequests = [...contactRequests];
+            newRequests.push(result.data);
+            setContactRequests(newRequests);
+
+            axios.post(`${SERVER_URL}/tasks/${props.data.userId}/new`, {
+                userId: props.data.userId,
+                reminderDate: result.data.followUpDate,
+                name: result.data.type,
+                action: 'Follow up with a reminder or thanks',
+                completed: false
+            })
+        })
+        .catch(err => {
+            console.log('ERROR while adding new outstanding request to contact');
+        })
     }
 
+    useEffect(() => {
+        console.log('Contact useEffect');
+    },[contactRequests]);
 
     return (
         <div className="contact">
@@ -58,12 +80,13 @@ const Contact = props => {
                         <input type="button" value="Add Request" onClick={handleAddContactRequest} />
                     </form>
                 </div>
+                {            <div>
                 {contactRequests.map((r,i) => {
                     return (
-                        <ContactRequest data={r} />
+                        <ContactRequest key={i} data={r} />
                     )
-                })
-            }
+                })}
+            </div>}
             </div>
             <input className="contact-button-delete" type="button" value="X" onClick={handleDel} />
             <input className="contact-button-update" type="button" value="Update" onClick={handleUpdate} />

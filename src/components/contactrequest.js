@@ -1,8 +1,9 @@
 import React from 'react';
 
 const ContactRequest = props => {
+    console.log(`ContactRequest, props=${props.data}`);
     return (
-        <span>{props.type} on {props.date}</span>
+        <p>{props.data.type} on {props.data.date}</p>
     )
 }
 
