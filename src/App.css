@@ -72,6 +72,73 @@ nav a:hover {
   border: 3px solid black;
 }
 
+.contact {
+  position: relative;
+  height: 7em;
+  border: 1px solid black;
+  background-image: linear-gradient(to bottom, lightgray, gray);
+}
+
+.contact-form {
+  position: absolute;
+  left: 0em;
+  top: 0.1em;
+  width: calc(100% - 6em);
+  height: auto;
+}
+
+.contact-form-input-3 {
+  box-sizing: border-box;
+  width: 30%;
+}
+
+.contact-form-input-2 {
+  box-sizing: border-box;
+  width: 45%;
+}
+
+.contact-button-update {
+  position: absolute;
+  top: 2em;
+  right: 4px;
+  height: 2em;
+  width: 6em;
+
+}
+
+.contact-button-delete {
+  position: absolute;
+  top: 0em;
+  right: 4px;
+  height: 2em;
+  width: 6em;
+  background-color: rgb(250, 54, 54);
+}
+
+.contact-add-request-form {
+  position: absolute;
+  top: 5em;
+  left: 4px;
+  width: 36em;
+  height: 2em;
+}
+
+.contact-button-add-contact-request {
+  position: absolute;
+  top: 4em;
+  right: 4px;
+  height: 2em;
+  width: 6em;
+}
+
+#contact-button-temp-add-request {
+  top: 6em;
+  left: 50%;
+  height: 2em;
+  width: 6em;
+  transform: translate(-50%,0);
+}
+
 .documents-container {
   position: absolute;
   left: 30%;

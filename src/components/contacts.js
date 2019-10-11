@@ -6,6 +6,8 @@ import Contact from './contact';
 const Contacts = props => {
 
     const [addFormVisible, setAddFormVisible] = useState(false);
+    const [addFormButtonText, setAddFormButtonText] = useState('Add new contact...');
+
     const [name, setName] = useState('');
     const [company, setCompany] = useState('');
     const [jobTitle, setJobTitle] = useState('');
@@ -19,6 +21,11 @@ const Contacts = props => {
     function handleContactFormDisplay() {
         let isVisible = addFormVisible;
         setAddFormVisible(!isVisible);
+        if (!isVisible) {
+            setAddFormButtonText('Hide form');
+        } else {
+            setAddFormButtonText('Add new contact...');
+        }
     }
 
     function handleAddNewContact(e) {
@@ -66,6 +73,30 @@ const Contacts = props => {
         })
     }
 
+    function handleUpdate(userId, contactId, formData) {
+
+        axios.put(`${SERVER_URL}/contacts/${userId}/update/${contactId}`, formData)
+        .then(result => {
+            console.log('Updated contact', result);
+            setValidate(true);
+        })
+        .catch(err => {
+            console.log('ERROR adding new contact', err);
+        })
+    }
+
+    function handleAddContact(userId, contactId, requestType) {
+        // Adds a new outstanding request to the contact
+        axios.post(`${SERVER_URL}/contacts/${userId}/contact/${contactId}/newrequest`, requestType)
+        .then(result => {
+            console.log('Added new outstanding request');
+            setValidate(true);
+        })
+        .catch(err => {
+            console.log('ERROR while adding new outstanding request to contact');
+        })
+    }
+
     function updateComponent(cList) {
         axios.get(`${SERVER_URL}/contacts/${props.user._id}`)
         .then(contactList => {
@@ -99,10 +130,10 @@ const Contacts = props => {
                 :
                 <></>
             }
-            <input id="contact-button-add" type="button" value="+" onClick={handleContactFormDisplay} />
+            <input id="contact-button-add" type="button" value={addFormButtonText} onClick={handleContactFormDisplay} />
             {contacts.map((c, i) => {
                 return (
-                    <Contact key={i} data={c} handleDelete={handleDelete} />
+                    <Contact key={i} data={c} handleDelete={handleDelete} handleUpdate={handleUpdate} handleAddContact={handleAddContact} />
                 )
             })}
         </div>
