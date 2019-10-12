@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+//import { google } from 'googleapis';
 
 const Documents = props => {
 
@@ -62,6 +63,24 @@ const Documents = props => {
                 localStorage.setItem('folderId', folderId);
             } else {
                 console.log('Did not find a tecHire folder');
+                // axios.post('https://www.googleapis.com/drive/v3/files', {
+                //     'name': 'tecHire2',
+                //     'mimeType': 'application/vnd.google-apps.folder'                    
+                // })
+                // .then(result => {
+                //     console.log('Folder creation successful');
+                //     console.log(result);
+                // })
+                // .catch(err => {
+                //     console.log('ERROR creating tecHire working folder', err);
+                // })
+                // google.drive.files.create({
+                //     resource: {
+                //         'name': 'tecHire',
+                //         'mimeType': 'application/vnd.google-apps.folder'
+                //     },
+                //     fields: 'id'
+                // })
             }
 
 
@@ -79,7 +98,7 @@ const Documents = props => {
     }, [props.user, googleToken])
 
     let googleFolderId = localStorage.getItem('folderId');
-    let driveUrl = `https://drive.google.com/embeddedfolderview?id=1d0K07MXxSKnItKvanxbBwu4TegLtt6Pc#list`;
+    let driveUrl = `https://drive.google.com/embeddedfolderview?id=${googleFolderId}#list`;
 
     return (
         <div className="documents-container">
