@@ -51,11 +51,12 @@ const Contacts = props => {
             setRelationship('');
             setLinkedInUrl('');
             setHowHelpful('');
-            setContacts('');
+            //setContacts('');
 
             let c = [...contacts];
             c.push(result.data);
             setContacts(c);
+            props.refreshTasks();
         })
         .catch(err => {
             console.log('ERROR adding new contact', err);
@@ -119,7 +120,7 @@ const Contacts = props => {
             <input id="contact-button-add" type="button" value={addFormButtonText} onClick={handleContactFormDisplay} />
             {contacts.map((c, i) => {
                 return (
-                    <Contact key={i} data={c} handleDelete={handleDelete} handleUpdate={handleUpdate} />
+                    <Contact key={i} data={c} handleDelete={handleDelete} handleUpdate={handleUpdate} tasks={props.tasks} setTasks={props.setTasks} refreshTasks={props.refreshTasks} />
                 )
             })}
         </div>

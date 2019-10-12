@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react';
+import React, { useState, useEffect } from 'react';
 import ContactRequest from './contactrequest';
 import axios from 'axios';
 import SERVER_URL from '../constants';
@@ -44,22 +44,32 @@ const Contact = props => {
             let newRequests = [...contactRequests];
             newRequests.push(result.data);
             setContactRequests(newRequests);
-
-            axios.post(`${SERVER_URL}/tasks/${props.data.userId}/new`, {
+            let taskObj = {
                 userId: props.data.userId,
                 reminderDate: result.data.followUpDate,
                 name: result.data.type,
                 action: 'Follow up with a reminder or thanks',
                 completed: false
+            };
+            axios.post(`${SERVER_URL}/tasks/${props.data.userId}/new`, taskObj)
+            .then(result => {
+                //let newTasks = [...props.tasks];
+                //newTasks.push(taskObj)
+                //props.setTasks(newTasks);  
+                props.refreshTasks();  
+            })
+            .catch(err => {
+                console.log('ERROR adding new task for request', err);
             })
         })
         .catch(err => {
-            console.log('ERROR while adding new outstanding request to contact');
+            console.log('ERROR while adding new outstanding request to contact', err);
         })
     }
 
     useEffect(() => {
         console.log('Contact useEffect');
+        console.log(`props.tasks: ${props.tasks}`);
     },[contactRequests]);
 
     return (

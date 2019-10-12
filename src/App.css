@@ -203,8 +203,18 @@ nav a:hover {
   border: 3px solid black;
 }
 
+.task-list-heading {
+  margin: 4px;
+  background-color: lightgray;
+  border: 1px solid black;
+}
+
+.task-overdue {
+  background-color: rgb(255, 151, 151);
+}
+
 .task-due-today {
-  background-color: rgb(255.218,151);
+  background-color: rgb(255,218,151);
 }
 
 .task-due-soon {
@@ -212,6 +222,10 @@ nav a:hover {
 }
 
 .task-due-eventually {
+  background-color: rgb(197, 227, 255);
+}
+
+.task-completed {
   background-color: rgb(197,255,197);
 }
 
