@@ -35,6 +35,7 @@ const PrepItem = props => {
             break;
     }
 
+
     let content = <></>;
     if (expanded) {
         content = (
@@ -47,7 +48,7 @@ const PrepItem = props => {
 
     return (
         <div className={statusClass} onClick={handleExpanded}>
-            <p>{prep.caption}</p>
+            <p className="status">{prep.caption}</p>
             {content}
        </div>
     )
