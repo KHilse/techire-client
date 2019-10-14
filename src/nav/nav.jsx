@@ -7,6 +7,7 @@ import axios from 'axios';
 const Nav = props => {
 
 	function responseGoogle(response) {
+		console.log(response);
 		if (response.AccessToken) {
 			localStorage.setItem('googleToken', response.accessToken);
 		} else {
