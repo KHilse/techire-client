@@ -1,5 +1,6 @@
 import React from 'react';
 
+/** VNEXT: Reenable the header bar for messages */
 const Header = props => {
 	return (
         <header className="App-header">

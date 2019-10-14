@@ -1,5 +1,8 @@
 import React from 'react';
 
+/** This is the component that displays each item in the tasks pane
+ *    Displays a Mark Complete button if the task is not completed
+ */
 const TaskItem = props => {
 
     let content = <></>;
@@ -33,6 +36,5 @@ const TaskItem = props => {
         </div>
     )
 }
-
 
 export default TaskItem;

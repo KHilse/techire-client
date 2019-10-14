@@ -3,6 +3,10 @@ import ContactRequest from './contactrequest';
 import axios from 'axios';
 import SERVER_URL from '../constants';
 
+/** This component displays information for a db Contact record retrieved via the API
+ *    The user is shown the contact info, with UI for editing, deleting, and spawning
+ *    new contact request items
+*/
 const Contact = props => {
 
     const [name, setName] = useState(props.data.name);
@@ -14,12 +18,17 @@ const Contact = props => {
     const [howHelpful, setHowHelpful] = useState(props.data.howHelpful);
     const [contactRequests, setContactRequests] = useState(props.data.outstandingRequests);   
     const [requestType, setRequestType] = useState('');
- 
- 
+
+    // One method of refreshing the display is to update a dependent state so useEffect gets called
+    useEffect(() => {
+    },[contactRequests]);
+    
+    /** Handles contact delete user request by bubbling to parent handler */
     function handleDel() {
         props.handleDelete(props.data.userId,props.data._id);
     }
 
+    /** Handles contact update user request by bubbling to parent handler */
     function handleUpdate(e) {
 
         e.preventDefault();
@@ -36,11 +45,11 @@ const Contact = props => {
         props.handleUpdate(props.data.userId, props.data._id, formData);
     }
 
+    /** Creates a new db Request item related to the current db Contact record */
     function handleAddContactRequest(e) {
         e.preventDefault();
         axios.post(`${SERVER_URL}/contacts/${props.data.userId}/contact/${props.data._id}/newrequest`,  { type: requestType })
         .then(result => {
-            console.log('Added new outstanding request', result);
             let newRequests = [...contactRequests];
             newRequests.push(result.data);
             setContactRequests(newRequests);
@@ -53,9 +62,6 @@ const Contact = props => {
             };
             axios.post(`${SERVER_URL}/tasks/${props.data.userId}/new`, taskObj)
             .then(result => {
-                //let newTasks = [...props.tasks];
-                //newTasks.push(taskObj)
-                //props.setTasks(newTasks);  
                 props.refreshTasks();  
             })
             .catch(err => {
@@ -66,11 +72,6 @@ const Contact = props => {
             console.log('ERROR while adding new outstanding request to contact', err);
         })
     }
-
-    useEffect(() => {
-        console.log('Contact useEffect');
-        console.log(`props.tasks: ${props.tasks}`);
-    },[contactRequests]);
 
     return (
         <div className="contact">
@@ -93,7 +94,7 @@ const Contact = props => {
                 {            <div>
                 {contactRequests.map((r,i) => {
                     return (
-                        <ContactRequest key={i} data={r} />
+                        <ContactRequest key={i} type={r.type} date={r.date} />
                     )
                 })}
             </div>}
@@ -103,6 +104,5 @@ const Contact = props => {
         </div>
     )
 }
-
 
 export default Contact;

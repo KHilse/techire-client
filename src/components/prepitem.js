@@ -7,20 +7,19 @@ const PrepItem = props => {
     let currentCategory = props.currentCategory;
     let prep = props.prep;
 
+    /** Expands the item to show the details, or
+     *    compacts the item to just the name */
     function handleExpanded(e) {
-        console.log(`e.target.type=${e.target.type}`)
         if (e.target.type !== 'button') {
             setExpanded(!expanded);
         }
     }
 
-    // console.log(`prep.category=${prep.category}, currentCategory=${currentCategory}`)
     if (currentCategory !== -1 && prep.category !== currentCategory) {
         return (<></>)
     } 
 
     let statusClass = '';
-    console.log(`props.status=${props.status}`);
     switch (props.status) {
         case 'Not Started':
             statusClass='status-not-started';
@@ -34,7 +33,6 @@ const PrepItem = props => {
         default:
             break;
     }
-
 
     let content = <></>;
     if (expanded) {
@@ -53,6 +51,5 @@ const PrepItem = props => {
        </div>
     )
 }
-
 
 export default PrepItem;

@@ -1,5 +1,6 @@
 import React from 'react';
 
+/** This is the component for the clickable Category heading in the Preps list */
 const PrepCategory = props => {
 
     let prep = props.prep;

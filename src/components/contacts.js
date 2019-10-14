@@ -8,6 +8,7 @@ const Contacts = props => {
     const [addFormVisible, setAddFormVisible] = useState(false);
     const [addFormButtonText, setAddFormButtonText] = useState('Add new contact...');
 
+    // Form state
     const [name, setName] = useState('');
     const [company, setCompany] = useState('');
     const [jobTitle, setJobTitle] = useState('');
@@ -17,6 +18,18 @@ const Contacts = props => {
     const [howHelpful, setHowHelpful] = useState('');   
     const [contacts, setContacts] = useState([]);
 
+    useEffect(() => {
+        axios.get(`${SERVER_URL}/contacts/${props.user._id}`)
+        .then(contactList => {
+            setContacts(contactList.data);
+        })
+        .catch(err => {
+            console.log('ERROR getting contacts list from API');
+        })     
+    },[props.user]);
+
+
+    /** Opens and closes the Add New Contact form */
     function handleContactFormDisplay() {
         let isVisible = addFormVisible;
         setAddFormVisible(!isVisible);
@@ -27,6 +40,7 @@ const Contacts = props => {
         }
     }
 
+    /** Creates a new db Contact record through the API */
     function handleAddNewContact(e) {
         e.preventDefault();
         let formData = { 
@@ -39,10 +53,10 @@ const Contacts = props => {
             linkedInUrl: linkedInUrl,
             howHelpful: howHelpful            
         };
-        // console.log(formData);
+
         axios.post(`${SERVER_URL}/contacts/new`, formData)
         .then(result => {
-            console.log('Added new contact', result);
+
             // Clear form
             setName('');
             setCompany('');
@@ -51,8 +65,8 @@ const Contacts = props => {
             setRelationship('');
             setLinkedInUrl('');
             setHowHelpful('');
-            //setContacts('');
 
+            // Refresh the UI to match
             let c = [...contacts];
             c.push(result.data);
             setContacts(c);
@@ -63,6 +77,7 @@ const Contacts = props => {
         })
     }
 
+    /** Deletes the db Contact record through the API */
     function handleDelete(userId, contactId) {
         axios.delete(`${SERVER_URL}/contacts/${userId}/delete/${contactId}`)
         .then(result => {
@@ -78,28 +93,13 @@ const Contacts = props => {
         })
     }
 
+    /** Updates the db Contact record when the form data is changed */
     function handleUpdate(userId, contactId, formData) {
-
         axios.put(`${SERVER_URL}/contacts/${userId}/update/${contactId}`, formData)
-        .then(result => {
-            console.log('Updated contact', result);
-        })
         .catch(err => {
-            console.log('ERROR adding new contact', err);
+            console.log('ERROR updating contact', err);
         })
     }
-
-    useEffect(() => {
-        axios.get(`${SERVER_URL}/contacts/${props.user._id}`)
-        .then(contactList => {
-            setContacts(contactList.data);
-        })
-        .catch(err => {
-            console.log('ERROR getting contacts list from API');
-        })     
-    },[props.user]);
-
-
 
     return (
         <div className="contacts-container">

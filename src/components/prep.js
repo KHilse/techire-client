@@ -13,17 +13,15 @@ const Prep = props => {
     const [refresh, setRefresh] = useState(true);
 
     useEffect(() => {
-        // console.log('useEffect called');
         Axios.get(SERVER_URL + '/preps/' + props.user._id)
         .then(preps => {
-            console.log('PREPS FROM DB', preps.data);
             setPrepsList(preps.data);
             setCurrentCategory(preps.data[0].category);
 
             let catIndex = '';
             let cats = [];
             let statusByCategory;
-            console.log('preps.data.length', preps.data.length);
+
             preps.data.forEach(prep => {
                 if (prep.category !== catIndex) { // new category
                     statusByCategory = [];
@@ -53,6 +51,9 @@ const Prep = props => {
         })
     }, [props.user, refresh])
 
+    /** Sets current category so only one category's items are displayed at a time
+     *    If the current category is clicked a second time, it too is closed
+     */
     function handleCategoryClick(e) {
         let t = e.currentTarget.getAttribute('name');
         if (t === currentCategory) {
@@ -62,9 +63,12 @@ const Prep = props => {
         }
     }
 
+    /** Updates the db PrepItem status by cycling through values in the UI and
+     *    updating the db using the API
+     */
     function handleItemStatusChange(e) {
         e.preventDefault();
-        console.dir(`e.target.value=${e.target.value}`);
+
         let itemId = e.target.name;
         let currentStatus = e.target.value;
         let newStatus = '';
@@ -81,6 +85,7 @@ const Prep = props => {
             default:
                 break;
         }
+
         let updateString = SERVER_URL + '/preps/' + props.user._id + '/' + itemId;
         Axios.put(updateString, { status: newStatus })
         .then(result => {
@@ -93,8 +98,6 @@ const Prep = props => {
                 let nl = JSON.parse(JSON.stringify(prepsList));
                 nl[index].status = newStatus;
                 setPrepsList(nl);
-                console.log('NEW PREPS:');
-                console.log(prepsList);
             }
         })
         .catch(err => {
@@ -103,14 +106,9 @@ const Prep = props => {
         setRefresh(!refresh);
     }
 
-    console.log('categories');
-    console.log(categories)
-    console.log('categoryStats');
-    console.log(categoryStats);    
-
-    if (categoryStats.length > 0) {
+    if (categoryStats.length > 0) { // Make the UI safe from slow API calls
         let catIndex = '';
-        console.log(`currentCategory=${currentCategory}`);
+
         return (
             <div className="prep-container">
                 {prepsList.map((prep, i) => {
@@ -118,7 +116,6 @@ const Prep = props => {
                     if (prep.category !== catIndex) { // New category
                         catIndex = prep.category;
                         let statsIndex = categories.indexOf(catIndex);
-                        console.log(`catIndex: ${catIndex}, statsIndex: ${statsIndex}, categoryStats.length: ${categoryStats.length}`);
                         cat = (
                             <PrepCategory
                                 key={1000+i}
@@ -153,8 +150,6 @@ const Prep = props => {
             <p>Loading...</p>
         )
     }
-
-
 }
 
 export default Prep;

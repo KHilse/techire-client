@@ -5,6 +5,7 @@ import Documents from '../../components/documents';
 import axios from 'axios';
 import SERVER_URL from '../../constants';
 
+/** This is the Dashboard component for the app */
 const Home = props => {
 
 	const [tasks, setTasks] = useState([]);
@@ -31,7 +32,6 @@ const Home = props => {
 	function refreshTasks() {
 		setRefresh(!refresh);
 	}
-
 
 
 	if (props.user) { // User logged in

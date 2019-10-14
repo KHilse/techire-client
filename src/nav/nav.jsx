@@ -6,47 +6,6 @@ import axios from 'axios';
 
 const Nav = props => {
 
-	// function handleClick(e) {
-	// 	e.preventDefault();
-
-	// 	const authWindow = window.open(`${SERVER_URL}/auth/google`,'_blank')
-	// 	const authPromise = new Promise((resolve, reject) => {
-	// 		window.addEventListener('message', (msg) => {
-	// 			if (!msg.origin.includes(`${window.location.protocol}//${window.location.host}`)) {
-	// 				authWindow.close();
-	// 				reject('not allowed');	
-	// 			}
-	// 			if (msg.data.payload) {
-	// 				try {
-	// 					resolve(JSON.parse(msg.data.payload));
-	// 				}
-	// 				catch (e) {
-	// 					resolve(msg.data.payload);
-	// 				}
-	// 				finally {
-	// 					authWindow.close();
-	// 				}
-	// 			} else {
-	// 				authWindow.close();
-	// 				reject('unauthorized');
-	// 			}
-	// 		}, false)
-	// 	})
-	// 	.then(result => {
-	// 		console.log(result);
-	// 	})
-	// 	.catch(err => {
-	// 		console.log(err);
-	// 	})
-	// 	//return authPromise;
-
-
-	// 	axios.get(`${SERVER_URL}/auth/google`)
-	// 	.then(response => {
-	// 		console.log("GOOGLE AUTH RESPONSE", response);
-	// 	})	
-	// }
-
 	function responseGoogle(response) {
 		if (response.AccessToken) {
 			localStorage.setItem('googleToken', response.accessToken);
@@ -72,13 +31,6 @@ const Nav = props => {
 		localStorage.setItem('googleId', null);
 		props.updateUser();
 	}
-
-	// function handleLogout(e) {
-	// 	e.preventDefault();
-	// 	// Remove the token from local storage
-	// 	localStorage.removeItem('serverToken');
-	// 	props.updateUser();
-	// }
 
 	let links = '';
 
