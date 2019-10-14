@@ -19,6 +19,8 @@ const Documents = props => {
             let folders = data.data.files.filter(folder => {
                 if (folder.mimeType.includes('vnd.google-apps.folder')) {
                     return folder;
+                } else {
+                    return false;
                 }
             })
 
@@ -45,7 +47,7 @@ const Documents = props => {
     return (
         <div className="documents-container">
             {(googleFolderId) ? (
-                <iframe src={driveUrl} width="100%" height="500" frameborder="0"></iframe>
+                <iframe title="google-drive-panel" src={driveUrl} width="100%" height="500" frameBorder="0"></iframe>
             ) : (<p>Can't find a tecHire folder in your google drive. Create one and share it for links only!</p>)
             }
         </div>

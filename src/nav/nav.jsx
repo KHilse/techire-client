@@ -15,14 +15,12 @@ const Nav = props => {
 		localStorage.setItem('googleId', response.googleId);
 		axios.post(`${SERVER_URL}/auth/login`, response)
 		.then(res => {
-			console.log('SERVER TOKEN:', res.data);
 			localStorage.setItem('serverToken', res.data.token);
 			props.updateUser();
 		})
 		.catch(err => {
 			console.log('SERVER failed to login user');
 		})
-		console.log(response);
 	}
 
 	function handleGoogleLogout() {

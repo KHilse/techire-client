@@ -15,10 +15,8 @@ const Home = props => {
 
 	useEffect(() => {
 		if (props.user) {
-			console.log(`props.user: ${props.user}`)
 			axios.get(SERVER_URL + '/tasks/' + props.user._id)
 			.then(tasks => {
-				console.log('TASKS', tasks.data);
 				setTasks([...tasks.data]);
 			})
 			.catch(err => {
