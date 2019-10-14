@@ -1,7 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import React from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router} from 'react-router-dom';
-import SERVER_URL from './constants';
+
+const SERVER_URL = process.env.SERVER_URL;
 
 // SOURCES
 import './App.css';

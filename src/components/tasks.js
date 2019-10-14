@@ -1,7 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import SERVER_URL from '../constants';
 import TaskItem from './taskitem';
+
+const SERVER_URL = process.env.SERVER_URL;
 
 /** This component is the container for the Tasks pane
  *    It displays TaskItem components */

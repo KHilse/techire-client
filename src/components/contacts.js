@@ -1,7 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import SERVER_URL from '../constants';
 import Contact from './contact';
+
+const SERVER_URL = process.env.SERVER_URL;
 
 const Contacts = props => {
 

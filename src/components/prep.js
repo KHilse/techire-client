@@ -1,8 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
-import SERVER_URL from '../constants';
 import PrepItem from './prepitem';
 import PrepCategory from './prepcategory';
+
+const SERVER_URL = process.env.SERVER_URL;
 
 const Prep = props => {
 

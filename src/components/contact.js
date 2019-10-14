@@ -1,7 +1,10 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import React, { useState, useEffect } from 'react';
 import ContactRequest from './contactrequest';
 import axios from 'axios';
-import SERVER_URL from '../constants';
+
+const SERVER_URL = process.env.SERVER_URL;
 
 /** This component displays information for a db Contact record retrieved via the API
  *    The user is shown the contact info, with UI for editing, deleting, and spawning
