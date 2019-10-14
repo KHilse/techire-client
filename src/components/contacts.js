@@ -18,6 +18,8 @@ const Contacts = props => {
     const [howHelpful, setHowHelpful] = useState('');   
     const [contacts, setContacts] = useState([]);
 
+    const [refresh, setRefresh] = useState(true);
+
     useEffect(() => {
         axios.get(`${SERVER_URL}/contacts/${props.user._id}`)
         .then(contactList => {
@@ -26,7 +28,7 @@ const Contacts = props => {
         .catch(err => {
             console.log('ERROR getting contacts list from API');
         })     
-    },[props.user]);
+    },[props.user, refresh]);
 
 
     /** Opens and closes the Add New Contact form */
@@ -70,7 +72,9 @@ const Contacts = props => {
             let c = [...contacts];
             c.push(result.data);
             setContacts(c);
+            setRefresh(!refresh);
             props.refreshTasks();
+            handleContactFormDisplay();
         })
         .catch(err => {
             console.log('ERROR adding new contact', err);
@@ -87,6 +91,7 @@ const Contacts = props => {
             })
             c.splice(cIndex, 1);
             setContacts(c);
+            setRefresh(!refresh);
         })
         .catch(err => {
             console.log('ERROR deleting contact', err);
@@ -96,6 +101,9 @@ const Contacts = props => {
     /** Updates the db Contact record when the form data is changed */
     function handleUpdate(userId, contactId, formData) {
         axios.put(`${SERVER_URL}/contacts/${userId}/update/${contactId}`, formData)
+        .then(() => {
+            setRefresh(!refresh);
+        })
         .catch(err => {
             console.log('ERROR updating contact', err);
         })

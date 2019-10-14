@@ -20,11 +20,10 @@ const Prep = props => {
 
             let catIndex = '';
             let cats = [];
-            let statusByCategory;
+            let statusByCategory = [];
 
             preps.data.forEach(prep => {
                 if (prep.category !== catIndex) { // new category
-                    statusByCategory = [];
                     statusByCategory.push([0,0,0]); // initialize counts per category: [not started, in progress, completed]
                     catIndex = prep.category;
                     cats.push(catIndex);
@@ -116,19 +115,21 @@ const Prep = props => {
                     if (prep.category !== catIndex) { // New category
                         catIndex = prep.category;
                         let statsIndex = categories.indexOf(catIndex);
-                        cat = (
-                            <PrepCategory
-                                key={1000+i}
-                                id={prep._id}
-                                name={prep.category} 
-                                currentCategory={currentCategory} 
-                                prep={prep} 
-                                handleCategoryClick={handleCategoryClick} 
-                                statsNotStarted={categoryStats[statsIndex][0]}
-                                statsInProgress={categoryStats[statsIndex][1]}
-                                statsCompleted={categoryStats[statsIndex][2]}
-                            />
-                        )
+                        if (statsIndex >= 0) {
+                            cat = (
+                                <PrepCategory
+                                    key={1000+i}
+                                    id={prep._id}
+                                    name={prep.category} 
+                                    currentCategory={currentCategory} 
+                                    prep={prep} 
+                                    handleCategoryClick={handleCategoryClick} 
+                                    statsNotStarted={categoryStats[statsIndex][0]}
+                                    statsInProgress={categoryStats[statsIndex][1]}
+                                    statsCompleted={categoryStats[statsIndex][2]}
+                                />
+                            )    
+                        }
                     }
                     let item = <></>;
                     if (catIndex === currentCategory) {
